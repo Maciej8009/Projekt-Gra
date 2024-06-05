@@ -42,3 +42,4 @@ def shopPage():
     # for shopItem in shopItems:
     #     print(shopItem)
     root.mainloop()
+    #a
