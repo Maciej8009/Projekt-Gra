@@ -7,18 +7,17 @@ import MainMenu
 import RegisterMenu
 
 
-
-
 def floginMenu():
     def login(email: str, passwd: str):
         print("Kupa" + email + passwd)
-        if DataBaseConnect.loginUser(email, passwd):
+        logInOrNotLogInThatIsTheQuestion, message = DataBaseConnect.loginUser(email, passwd)
+        if logInOrNotLogInThatIsTheQuestion:
             print("Logged in")
             MenuK.destroy()
-            MenuPage = MainMenu.MainMenu().MenuPage()
+            MainMenu.MainMenu().MenuPage()
         else:
             print("Wrong username or password")
-            labelWrongData = Label(text="Wrong email or password", fg="red", font="Ariel")
+            labelWrongData = Label(text=message, fg="red", font="Ariel")
             labelWrongData.pack()
 
 
@@ -33,7 +32,7 @@ def floginMenu():
     label.pack()
     emailLabel = Entry(MenuK, font="Ariel", bg="#666", fg="white", width=20)
     emailLabel.pack()
-    passwordLabel = Entry(MenuK, font="Ariel", bg="#666")
+    passwordLabel = Entry(MenuK, font="Ariel", bg="#666", show="*")
     passwordLabel.pack()
     buttonLogin = Button(MenuK, text="Login", width=10, height=2, command=lambda: login(emailLabel.get(), passwordLabel.get()))
     buttonLogin.pack()

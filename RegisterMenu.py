@@ -6,17 +6,15 @@ import time
 def registerMenu():
     def registerMenuFunction(nick: str, email: str, password: str):
         print("JD", nick, email, password)
-        if DataBaseConnect.addUser(nick, email, password):
-            successLabel = Label(root, text="Użytkownik dodany!")
-            successLabel.pack()
-            time.sleep(2)
+        addOrNotAddThatIsTheQuestion, message = DataBaseConnect.addUser(nick, email, password)
+        if addOrNotAddThatIsTheQuestion:
+            messageLabel = Label(root, text="Użytkownik dodany!")
+            messageLabel.pack()
             root.destroy()
         else:
-            notsuccessLabel = Label(root, text="Użytkownik o podanym nicku lub emailu już istnieje!")
-            notsuccessLabel.pack()
+            messageLabel = Label(root, text=message)
+            messageLabel.pack()
             return
-
-
 
     root = Tk()
     root.title("Register")
@@ -31,10 +29,14 @@ def registerMenu():
     emailEntry.pack()
     passwordLabel = Label(root, text="Podaj hasło")
     passwordLabel.pack()
-    passwordEntry = Entry(root, font="Ariel", bg="#666")
+    passwordEntry = Entry(root, font="Ariel", bg="#666", show="*")
     passwordEntry.pack()
+    passwordInfoLabel = Label(root, text="Hasło musi zawierać przynajmniej: Jedną dużą i małą literę, znak specjalny(@,#,$,%), ")
+    passwordInfoLabel2 = Label(root, text="mieć długość przynajmniej 8 znaków i nie być dłuższe niż 20 znaków")
+    passwordInfoLabel.pack()
+    passwordInfoLabel2.pack()
     button = Button(root, text="Register", command=lambda: registerMenuFunction(nickEntry.get(), emailEntry.get(), passwordEntry.get()))
     button.pack()
-
+    root.mainloop()
 
 
