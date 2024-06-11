@@ -1,6 +1,7 @@
 import mysql.connector
 import PasswdEncrypterAndValidation
 import re
+import tkinter
 
 def checkEmail(entry_var2):
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
@@ -99,23 +100,127 @@ def loginUser(email: str, passwd: str):
         if mycursor.fetchone()[0] == 0:
             print("Nie ma takiego użytkownika!")
             message = "Nie ma takiego użytkownika!"
-            return False, message
+            mycursor.close()
+            mydb.close()
+            return False, message, None, None
         else:
             print("Niepoprawne Hasło!")
             message = "Niepoprawne Hasło!"
-            return False, message
+            mycursor.close()
+            mydb.close()
+            return False, message, None, None
     else:
         print("Logged in")
         message = "Logged in"
-        return True, message
+        sql = "Select userID, userNickName from usermain WHERE UserEmail=%s"
+        mycursor.execute(sql, (email, ))
+        myresult = mycursor.fetchone()
+        userID = myresult[0]
+        userNickName = myresult[1]
+        mycursor.close()
+        mydb.close()
+        return True, message, userID, userNickName
 
 
 def shopList():
     mydb = connect_to_db()
     mycursor = mydb.cursor()
-    sql = "SELECT ProductName, MoneyPrice, WoodPrice, StonePrice, IronPrice, DiamondsPrice  FROM `store` "
+    sql = "SELECT ProductName, MoneyPrice, WoodPrice, StonePrice, IronPrice, DiamondsPrice, ProductID  FROM `store` "
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
     mycursor.close()
+    mydb.close()
+    print(myresult)
+    return myresult
+
+
+def buy(id: int, userID: int):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    sql = "SELECT MoneyPrice, WoodPrice, StonePrice, IronPrice, DiamondsPrice, ProductName FROM store WHERE ProductID=%s"
+    mycursor.execute(sql, (id, ))
+    myresult = mycursor.fetchone()
+    print(myresult)
+    MoneyPrice = myresult[0]
+    WoodPrice = myresult[1]
+    StonePrice = myresult[2]
+    IronPrice = myresult[3]
+    DiamondsPrice = myresult[4]
+    ProductName = myresult[5]
+    sql2 = "SELECT Money, Wood, Stone, Iron, Diamonds FROM userinventory WHERE UserID=%s"
+    mycursor.execute(sql2, (userID, ))
+    myresult2 = mycursor.fetchone()
+    print(myresult2)
+    UserMoney = myresult2[0]
+    UserWood = myresult2[1]
+    UserStone = myresult2[2]
+    UserIron = myresult2[3]
+    UserDiamonds = myresult2[4]
+    if MoneyPrice > UserMoney | WoodPrice > UserWood | StonePrice > UserStone | IronPrice > UserIron | DiamondsPrice > UserDiamonds:
+        return False
+
+    UserMoney = UserMoney - MoneyPrice
+    UserWood = UserWood - WoodPrice
+    UserStone = UserStone - StonePrice
+    UserIron = UserIron - IronPrice
+    UserDiamonds = UserDiamonds - DiamondsPrice
+    if ProductName == 'Axe':
+        sql3 = "UPDATE userinventory set Money=%s, Wood=%s, Stone=%s, Iron=%s, Diamonds=%s, Axe=1 WHERE UserID = %s"
+    elif ProductName == 'Pickaxe':
+        sql3 = "UPDATE userinventory set Money=%s, Wood=%s, Stone=%s, Iron=%s, Diamonds=%s, Pickaxe=1 WHERE UserID = %s"
+    elif ProductName == 'Better Pickaxe':
+        sql3 = "UPDATE userinventory set Money=%s, Wood=%s, Stone=%s, Iron=%s, Diamonds=%s, `Better Pickaxe`=1 WHERE UserID = %s"
+    elif ProductName == 'Drill':
+        sql3 = "UPDATE userinventory set Money=%s, Wood=%s, Stone=%s, Iron=%s, Diamonds=%s, Drill=1 WHERE UserID = %s"
+    else:
+        return False
+    mycursor.execute(sql3, (UserMoney, UserWood, UserStone, UserIron, UserDiamonds, userID))
+    mydb.commit()
     mycursor.close()
+    mydb.close()
+
+
+def alreadyBought(ProductID, userID):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    if ProductID == 0:
+        sql = "SELECT Axe FROM userinventory WHERE UserID = %s"
+    elif ProductID == 1:
+        sql = "SELECT Pickaxe FROM userinventory WHERE UserID = %s"
+    elif ProductID == 2:
+        sql = "SELECT `Better Pickaxe` FROM userinventory WHERE UserID = %s"
+    elif ProductID == 3:
+        sql = "SELECT Drill FROM userinventory WHERE UserID = %s"
+    else:
+        return False, "error"
+
+    mycursor.execute(sql, (userID, ))
+    myresult = mycursor.fetchone()
+    mycursor.close()
+    mydb.close()
+    if myresult[0] == 1:
+        return False, "Już posiadasz ten item!"
+    else:
+        return True, "Zakup się udał, gratulujemy zakupy!"
+
+
+def getUserScores():
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    sql = "SELECT userNickName, UserScore FROM usermain ORDER BY UserScore DESC LIMIT 5"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    mycursor.close()
+    mydb.close()
+    return myresult
+
+
+def getUserEQ(userID):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    sql = "SELECT Money, Wood, Stone, Iron, Diamonds FROM userinventory WHERE UserID = %s"
+    mycursor.execute(sql, (userID, ))
+    myresult = mycursor.fetchone()
+    mycursor.close()
+    mydb.close()
     return myresult

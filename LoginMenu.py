@@ -10,11 +10,11 @@ import RegisterMenu
 def floginMenu():
     def login(email: str, passwd: str):
         print("Kupa" + email + passwd)
-        logInOrNotLogInThatIsTheQuestion, message = DataBaseConnect.loginUser(email, passwd)
+        logInOrNotLogInThatIsTheQuestion, message, userID, userNickName = DataBaseConnect.loginUser(email, passwd)
         if logInOrNotLogInThatIsTheQuestion:
             print("Logged in")
             MenuK.destroy()
-            MainMenu.MainMenu().MenuPage()
+            MainMenu.MainMenu(UserID=userID, UserName=userNickName).MenuPage()
         else:
             print("Wrong username or password")
             labelWrongData = Label(text=message, fg="red", font="Ariel")
