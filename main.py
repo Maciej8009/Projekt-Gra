@@ -4,14 +4,14 @@ import LoginMenu
 import ShopMenuOLD
 import PasswdEncrypterAndValidation
 import ShopMenu
-
+import Game1
 
 #DataBaseConnect.addUser("admin", "admin", "admin")
 # DataBaseConnect.connect_to_db()
 # DataBaseConnect.loginUser("testowany", "SILNEHASLO123")
 # DataBaseConnect.loginUser("testowany1", "SILNEHASLO123")
 # DataBaseConnect.loginUser("testowany", "SILNEHASLO1234")
-#LoginMenu.floginMenu()
+# LoginMenu.floginMenu()
 menu = MainMenu.MainMenu(UserName='Admin', UserID=7)
 menu.MenuPage()
 #ShopMenu.shopPage()
@@ -19,3 +19,8 @@ menu.MenuPage()
 #PasswdEncrypter.encrypt_password("DUPA1")
 # DataBaseConnect.shopList()
 #ShopMenuTEST.shopPage2(7)
+
+# DataBaseConnect.updateUserScore(7, 5)
+# DataBaseConnect.updateWood(7, 5)
+
+# Game1.Game2(7)

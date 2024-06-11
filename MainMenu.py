@@ -5,6 +5,7 @@ from typing import Any
 import DataBaseConnect
 import ShopMenu
 import LoginMenu
+import Game1
 
 class MainMenu:
     def __init__(self, UserID: int, UserName: str):
@@ -46,18 +47,24 @@ class MainMenu:
             frame.pack()
 
         def getToShop():
+            root.destroy()
             ShopMenu.shopPage2(self.UserID)
 
         def getToGame1():
+            root.destroy()
+            Game1.Game2(self.UserID, self.UserName)
             print("game1")
 
         def getToGame2():
+            root.destroy()
             print("game2")
 
         def getToGame3():
+            root.destroy()
             print("game3")
 
         def getToGame4():
+            root.destroy()
             print("game4")
 
         def logout():

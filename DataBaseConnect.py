@@ -224,3 +224,111 @@ def getUserEQ(userID):
     mycursor.close()
     mydb.close()
     return myresult
+
+
+def updateUserScore(userID, score):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    sql = "SELECT UserScore FROM usermain WHERE UserID = %s"
+    mycursor.execute(sql, (7, ))
+    myresult = mycursor.fetchone()
+    newscore = myresult[0] + score
+    print(newscore)
+    sql = "UPDATE usermain SET UserScore = %s WHERE UserID = %s"
+    try:
+        mycursor.execute(sql, (newscore, userID))
+        mydb.commit()
+    except mydb.IntegrityError:
+        print("Error updating")
+    mycursor.close()
+    mydb.close()
+
+
+def updateMoney(userID, value):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    sql = "SELECT Money FROM userinventory WHERE UserID = %s"
+    mycursor.execute(sql, (7, ))
+    myresult = mycursor.fetchone()
+    newValue = myresult[0] + value
+    print(newValue)
+    sql = "UPDATE userinventory SET Money = %s WHERE UserID = %s"
+    try:
+        mycursor.execute(sql, (newValue, userID))
+        mydb.commit()
+    except mydb.IntegrityError:
+        print("Error updating")
+    mydb.commit()
+    mycursor.close()
+    mydb.close()
+
+def updateWood(userID, value):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    sql = "SELECT Wood FROM userinventory WHERE UserID = %s"
+    mycursor.execute(sql, (7, ))
+    myresult = mycursor.fetchone()
+    newValue = myresult[0] + value
+    print(newValue)
+    sql = "UPDATE userinventory SET Wood = %s WHERE UserID = %s"
+    try:
+        mycursor.execute(sql, (newValue, userID))
+        mydb.commit()
+    except mydb.IntegrityError:
+        print("Error updating")
+    mycursor.close()
+    mydb.close()
+
+
+def updateStone(userID, value):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    sql = "SELECT Stone FROM userinventory WHERE UserID = %s"
+    mycursor.execute(sql, (7, ))
+    myresult = mycursor.fetchone()
+    newValue = myresult[0] + value
+    print(newValue)
+    sql = "UPDATE userinventory SET Stone = %s WHERE UserID = %s"
+    try:
+        mycursor.execute(sql, (newValue, userID))
+        mydb.commit()
+    except mydb.IntegrityError:
+        print("Error updating")
+    mycursor.close()
+    mydb.close()
+
+
+def updateIron(userID, value):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    sql = "SELECT Iron FROM userinventory WHERE UserID = %s"
+    mycursor.execute(sql, (7, ))
+    myresult = mycursor.fetchone()
+    newValue = myresult[0] + value
+    print(newValue)
+    sql = "UPDATE userinventory SET Iron = %s WHERE UserID = %s"
+    try:
+        mycursor.execute(sql, (newValue, userID))
+        mydb.commit()
+    except mydb.IntegrityError:
+        print("Error updating")
+    mycursor.close()
+    mydb.close()
+
+
+def updateDiamonds(userID, value):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    sql = "SELECT Diamonds FROM userinventory WHERE UserID = %s"
+    mycursor.execute(sql, (7, ))
+    myresult = mycursor.fetchone()
+    newValue = myresult[0] + value
+    print(newValue)
+    sql = "UPDATE userinventory SET Diamonds = %s WHERE UserID = %s"
+    try:
+        mycursor.execute(sql, (newValue, userID))
+        mydb.commit()
+    except mydb.IntegrityError:
+        print("Error updating")
+    mycursor.close()
+    mydb.close()
