@@ -1,10 +1,5 @@
-import base64
-from msilib import Table
 from tkinter import *
 import DataBaseConnect
-from PIL import ImageTk, Image
-import io
-import ShopMenu
 
 
 def shopPage2(userId: int):

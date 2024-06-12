@@ -1,7 +1,5 @@
 from tkinter import *
 from tkinter.ttk import Separator
-from typing import Any
-
 import DataBaseConnect
 import ShopMenu
 import LoginMenu

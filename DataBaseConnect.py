@@ -28,9 +28,9 @@ def checkUserName(entry_var3):
 def connect_to_db():
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="db",
             user="root",
-            password="",
+            password="password",
             database="gra3"
         )
         return mydb

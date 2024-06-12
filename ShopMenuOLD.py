@@ -1,8 +1,6 @@
-import base64
 from tkinter import *
 import DataBaseConnect
-from PIL import ImageTk, Image
-import io
+
 
 def shopPage():
     class Table:

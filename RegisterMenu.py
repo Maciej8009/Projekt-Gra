@@ -3,6 +3,7 @@ import DataBaseConnect
 import MainMenu
 import time
 
+
 def registerMenu():
     def registerMenuFunction(nick: str, email: str, password: str):
         print("JD", nick, email, password)

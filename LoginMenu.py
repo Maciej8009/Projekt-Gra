@@ -1,6 +1,6 @@
-from functools import partial
+import os
 from tkinter import *
-from typing import Any
+
 
 import DataBaseConnect
 import MainMenu
@@ -20,10 +20,8 @@ def floginMenu():
             labelWrongData = Label(text=message, fg="red", font="Ariel")
             labelWrongData.pack()
 
-
     def register():
         RegisterMenu.registerMenu()
-
 
     MenuK = Tk()
     MenuK.title("Gra - ProjektGra - LoginMenu")
