@@ -156,7 +156,8 @@ def buy(id: int, userID: int):
     UserStone = myresult2[2]
     UserIron = myresult2[3]
     UserDiamonds = myresult2[4]
-    if MoneyPrice > UserMoney | WoodPrice > UserWood | StonePrice > UserStone | IronPrice > UserIron | DiamondsPrice > UserDiamonds:
+    if (MoneyPrice > UserMoney) or (WoodPrice > UserWood) or (StonePrice > UserStone) or (IronPrice > UserIron) or (DiamondsPrice > UserDiamonds):
+        print("Warunek spełniony")
         return False
 
     UserMoney = UserMoney - MoneyPrice
@@ -178,7 +179,7 @@ def buy(id: int, userID: int):
     mydb.commit()
     mycursor.close()
     mydb.close()
-
+    return True
 
 def alreadyBought(ProductID, userID):
     mydb = connect_to_db()
@@ -201,7 +202,7 @@ def alreadyBought(ProductID, userID):
     if myresult[0] == 1:
         return False, "Już posiadasz ten item!"
     else:
-        return True, "Zakup się udał, gratulujemy zakupy!"
+        return True, ""
 
 
 def getUserScores():
@@ -230,7 +231,7 @@ def updateUserScore(userID, score):
     mydb = connect_to_db()
     mycursor = mydb.cursor()
     sql = "SELECT UserScore FROM usermain WHERE UserID = %s"
-    mycursor.execute(sql, (7, ))
+    mycursor.execute(sql, (userID, ))
     myresult = mycursor.fetchone()
     newscore = myresult[0] + score
     print(newscore)
@@ -248,7 +249,7 @@ def updateMoney(userID, value):
     mydb = connect_to_db()
     mycursor = mydb.cursor()
     sql = "SELECT Money FROM userinventory WHERE UserID = %s"
-    mycursor.execute(sql, (7, ))
+    mycursor.execute(sql, (userID, ))
     myresult = mycursor.fetchone()
     newValue = myresult[0] + value
     print(newValue)
@@ -266,7 +267,7 @@ def updateWood(userID, value):
     mydb = connect_to_db()
     mycursor = mydb.cursor()
     sql = "SELECT Wood FROM userinventory WHERE UserID = %s"
-    mycursor.execute(sql, (7, ))
+    mycursor.execute(sql, (userID, ))
     myresult = mycursor.fetchone()
     newValue = myresult[0] + value
     print(newValue)
@@ -284,7 +285,7 @@ def updateStone(userID, value):
     mydb = connect_to_db()
     mycursor = mydb.cursor()
     sql = "SELECT Stone FROM userinventory WHERE UserID = %s"
-    mycursor.execute(sql, (7, ))
+    mycursor.execute(sql, (userID, ))
     myresult = mycursor.fetchone()
     newValue = myresult[0] + value
     print(newValue)
@@ -302,7 +303,7 @@ def updateIron(userID, value):
     mydb = connect_to_db()
     mycursor = mydb.cursor()
     sql = "SELECT Iron FROM userinventory WHERE UserID = %s"
-    mycursor.execute(sql, (7, ))
+    mycursor.execute(sql, (userID, ))
     myresult = mycursor.fetchone()
     newValue = myresult[0] + value
     print(newValue)
@@ -320,7 +321,7 @@ def updateDiamonds(userID, value):
     mydb = connect_to_db()
     mycursor = mydb.cursor()
     sql = "SELECT Diamonds FROM userinventory WHERE UserID = %s"
-    mycursor.execute(sql, (7, ))
+    mycursor.execute(sql, (userID, ))
     myresult = mycursor.fetchone()
     newValue = myresult[0] + value
     print(newValue)
@@ -332,3 +333,21 @@ def updateDiamonds(userID, value):
         print("Error updating")
     mycursor.close()
     mydb.close()
+
+
+def checkIfUserHaveAxe(userID):
+    mydb = connect_to_db()
+    mycursor = mydb.cursor()
+    sql = "SELECT Axe FROM userinventory WHERE UserID = %s"
+    mycursor.execute(sql, (userID, ))
+    myresult = mycursor.fetchone()
+    newValue = myresult[0]
+    if newValue == 0:
+        mycursor.close()
+        mydb.close()
+        return False
+    else:
+        mycursor.close()
+        mydb.close()
+        return True
+

@@ -10,6 +10,7 @@ def updateStats(userID: int, score: int):
     print(str(userID) + " : " + str(score))
     DataBaseConnect.updateUserScore(userID, score)
     DataBaseConnect.updateWood(userID, score)
+    DataBaseConnect.updateMoney(userID, score*2)
 
 
 def Game1():
@@ -165,10 +166,6 @@ def Game2(userID: int, userName: str):
         menu = MainMenu.MainMenu(UserName=userName, UserID=userID)
         menu.MenuPage()
         quit()
-
-
-    gameLoop()
-
     gameLoop()
 
 

@@ -1,17 +1,26 @@
 from tkinter import *
 import DataBaseConnect
+import MainMenu
 
 
-def shopPage2(userId: int):
+def shopPage2(userId: int, userName: str):
     def buy(productID: int):
         print(productID, userId)
         buyOrNotBuy, message = DataBaseConnect.alreadyBought(productID, userId)
         if buyOrNotBuy:
-            DataBaseConnect.buy(productID, userId)
-            Shop.tk.call('grid', Label(Shop, text=message, fg="red"))
+            if DataBaseConnect.buy(productID, userId):
+                Shop.tk.call('grid', Label(Shop, text="Zakup się udał. Gratulujemy!", fg="green"))
+            else:
+                Shop.tk.call('grid', Label(Shop, text="Nie posiadasz funduszy na ten przedmiot", fg="red"))
+
         else:
             Shop.tk.call('grid', Label(Shop, text=message, fg="red"))
 
+
+    def close():
+        Shop.destroy()
+        menu = MainMenu.MainMenu(UserName=userName, UserID=userId)
+        menu.MenuPage()
 
     Shop = Tk()
     Shop.title("Sklep")
@@ -75,4 +84,8 @@ def shopPage2(userId: int):
     buttonBuyBetterPickAxe.grid(row=rowFrame, column=0, columnspan=2)
     rowFrame += 1
     buttonBuyDrill.grid(row=rowFrame, column=0, columnspan=2)
+    rowFrame += 1
+    buttonExit = Button(Shop, text="Wróć do menu", command=close, width=30, height=2, padx=10, pady=10)
+    buttonExit.grid(row=rowFrame, column=0, columnspan=2)
     Shop.mainloop()
+

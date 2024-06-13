@@ -21,7 +21,11 @@ def floginMenu():
             labelWrongData.pack()
 
     def register():
+        MenuK.destroy()
         RegisterMenu.registerMenu()
+
+    def close():
+        MenuK.destroy()
 
     MenuK = Tk()
     MenuK.title("Gra - ProjektGra - LoginMenu")
@@ -36,6 +40,8 @@ def floginMenu():
     buttonLogin.pack()
     buttonRegister = Button(MenuK, text="Register", width=10, height=2, command=register)
     buttonRegister.pack()
+    buttonExit = Button(MenuK, text="Wyjście", width=10, height=2, command=close)
+    buttonExit.pack(side=BOTTOM)
     MenuK.mainloop()
 
 
